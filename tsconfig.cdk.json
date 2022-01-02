@@ -1,0 +1,17 @@
+// Config used by tsc to compile our cdk code.
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "declaration": true,
+        "outDir": "./lib",
+        "strict": true,
+        "isolatedModules": true
+    },
+    "include": ["src/cdk", "src/index.ts"],
+    "exclude": ["node_modules"],
+    "scripts": {
+        "build":"exit 0"
+    }
+}

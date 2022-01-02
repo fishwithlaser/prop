@@ -1,0 +1,19 @@
+// Config used by ts-loader in webpack to compile our lambda code.
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "isolatedModules": false,
+        "declaration": false,
+        "outDir": "./lib/lambdas",
+        "strict": true,
+        "useUnknownInCatchVariables": false,
+    },
+    "scripts": {
+        "build":"exit 0"
+    },
+    "include": ["src/lambdas"],
+    "exclude": ["node_modules"]
+}
+
