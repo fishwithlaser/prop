@@ -11,24 +11,16 @@ import {
   addGuiMapMethod,
   setupRateLimiting,
 } from "./api";
+import { buildDynamoPolicyStatement } from "./roles";
 
 export class ProperlyStack extends cdk.Stack {
+  dynamoDataTable: any;
+
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // ____ TO DO ____ - specify queing.
-    // const queue = new sqs.Queue(this, "ProperQueue", {
-    //   visibilityTimeout: cdk.Duration.seconds(300),
-    // });
-    // const topic = new sns.Topic(this, "ProperTopic");
-    // props still optional
-    // TODO ADD POLICY OBJECTS
-    // TODO ADD IAM ROLES TO PROVISION WHO CAN DO WHAT IN DYNAMO
-    // TODO ADD CLOUDWATCH
-
-    // topic.addSubscription(new subs.SqsSubscription(queue));
-
-    buildDataTable(this);
+    this.dynamoDataTable = buildDataTable(this);
+    buildDynamoPolicyStatement(this.dynamoDataTable.tableArn);
 
     const apiGateWay = new apigw.RestApi(this, "api", {
       description: "api gatewa that does basic property information",
@@ -50,3 +42,15 @@ export class ProperlyStack extends cdk.Stack {
     addGuiMapMethod(guiMapResource);
   }
 }
+
+// ____ TO DO ____ - specify queing.
+// const queue = new sqs.Queue(this, "ProperQueue", {
+//   visibilityTimeout: cdk.Duration.seconds(300),
+// });
+// const topic = new sns.Topic(this, "ProperTopic");
+// props still optional
+// TODO ADD POLICY OBJECTS
+// TODO ADD IAM ROLES TO PROVISION WHO CAN DO WHAT IN DYNAMO
+// TODO ADD CLOUDWATCH
+
+// topic.addSubscription(new subs.SqsSubscription(queue));

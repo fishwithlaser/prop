@@ -8,7 +8,7 @@ export const buildDataTable = (stack: Stack): Table => {
     billingMode: BillingMode.PAY_PER_REQUEST,
   };
 
-  const properTable = new Table(stack, "SlackDataTable", tableProps);
+  const properTable = new Table(stack, "PropertyDataTable", tableProps);
 
   // quickest way i could think of keeping large amounts of quickly-indexable properties.
   properTable.addGlobalSecondaryIndex({

@@ -1,26 +1,47 @@
 {
   "name": "properly",
-  "version": "0.1.0",
-  "bin": {
-    "properly": "bin/properly.js"
-  },
+  "version": "0.0.0",
+  "author": "Thomas Kosciuch",
+  "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "lint": "./node_modules/.bin/eslint ./src --ext .ts -c ./.eslintrc.js",
+    "lint:fix": "./node_modules/.bin/eslint ./src --ext .ts -c ./.eslintrc.js --fix",
+    "build": "yarn lint:fix && ./scripts/buildLib.sh",
+    "build:cdk": "tsc --project ./tsconfig.cdk.json --incremental --tsBuildInfoFile ./.tsbuildinfo --outDir ./lib",
+    "build:lambdas": "yarn build:lambdas:typecheck",
+    "build:lambdas:typecheck": "tsc -p ./tsconfig.lambdas.json --incremental --tsBuildInfoFile ./.tsbuildinfo --noEmit",
+    "zip:lambdas": "cd ./lib && bestzip ../cdk.out/lambdas.zip . && cd ../",
+    "deploy": "./scripts/deploy.sh development"
   },
   "devDependencies": {
-    "aws-cdk": "2.2.0",
+    "@types/aws-lambda": "^8.10.89",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "2.2.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "~3.9.7"
+    "typescript": "4.4.4"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.2.0",
-    "constructs": "^10.0.0"
+    "aws-cdk": "2.2.0",
+    "@aws-cdk/core": "^1.136.0",
+    "@aws-cdk/aws-iam": "^1.136.0",
+    "@aws-cdk/aws-apigateway": "^1.136.0",
+    "@aws-cdk/aws-dynamodb": "^1.136.0",
+    "@aws-cdk/aws-lambda": "^1.136.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.136.0",
+    "@aws-cdk/aws-sns": "^1.136.0",
+    "constructs": "^10.0.0",
+    "bestzip": "2.2.0",
+    "@typescript-eslint/eslint-plugin": "5.3.0",
+    "@typescript-eslint/parser": "5.3.0",
+    "prettier": "2.3.1",
+    "eslint": "8.1.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "3.4.1"
   }
 }

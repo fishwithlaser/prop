@@ -1,15 +1,24 @@
-# Welcome to your CDK TypeScript project!
+# Welcome to your CDK TypeScript API project (wip)!
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`ProperlyStack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
+# Deploying
+To deploy the app run:
+`cdk bootstrap` logs in and allows future activity - will require setting up [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html)
+`cdk deploy`deploys the difference in the cdk.out folder
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Configurations (though ver much a WIP) all exist in the src/cdk folder and are written on top of CDK and cloudformation.
 
-## Useful commands
+# Useful commands  
+`yarn build` - builds project
+`yarn deploy` - deploys project
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+# Stack 
+Though WIP, I am using a lambda connected to APIgateway, and DynamoDb. [Provisioned concurrency](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html) helps scale backend performance to load.
+
+# Database Rationale
+## Website performance
+I am using dynamo as it's scalable, performant, and adaptable - with rate limiting configured in APIGateway RestApi
+Retrieving filtered properties from a database at a speed that is acceptable for smooth usage is a non trivial problem. 
+Here, I am using a [Global Secondary Index](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) to enable quick index and return property information by allowing the user to search for a numeric range commensurate to the user's monitor.   
+
+# TODO:
+- implement dynamo client
