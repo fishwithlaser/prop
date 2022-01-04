@@ -1,6 +1,7 @@
 import * as apigw from "@aws-cdk/aws-apigateway";
+import * as s3 from "@aws-cdk/aws-s3";
+import * as iam from "@aws-cdk/aws-iam";
 
-// import * as apigw from "@aws-cdk/aws-apigateway";
 import * as cdk from "@aws-cdk/core";
 import { buildDataTable } from "./tables";
 import {
@@ -13,12 +14,20 @@ import { buildDynamoPolicyStatement } from "./roles";
 
 export class ProperlyStack extends cdk.Stack {
   dynamoDataTable: any;
+  mlsHistory: any;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // add dynamo for quick storage of properties
     this.dynamoDataTable = buildDataTable(this);
     buildDynamoPolicyStatement(this.dynamoDataTable.tableArn);
+
+    // add S3 connection for historic MLS information
+    this.mlsHistory = new s3.Bucket(this, "mlsHistory", {
+      encryption: s3.BucketEncryption.KMS,
+      enforceSSL: true,
+    });
 
     const apiGateWay = new apigw.RestApi(this, "api", {
       description: "api gatewa that does basic property information",
@@ -38,8 +47,6 @@ export class ProperlyStack extends cdk.Stack {
     // add a /guiMap Property resource
     const guiMapResource = apiGateWay.root.addResource("guiMap");
     addGuiMapMethod(this, guiMapResource);
-
-    // add S3 connection for historic MLS storage (property history information)
   }
 }
 
