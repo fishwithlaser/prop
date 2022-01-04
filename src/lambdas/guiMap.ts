@@ -13,6 +13,7 @@ export const frontEndUI: Handler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   console.log(context);
+
   if (isValidInput(event)) {
     return {
       statusCode: 400,
@@ -20,9 +21,9 @@ export const frontEndUI: Handler = async (
     };
   }
 
-  const eventBody = JSON.parse(event.body) as guiEventInterface;
+  const eventBody = JSON.parse(event.body as string) as guiEventInterface;
 
-  // todo add Property Safety
+  // todo add property-type safety
   const propertyArray = getPropertiesInDecimalDegreeRange(
     eventBody.DecimalDegrees
   );

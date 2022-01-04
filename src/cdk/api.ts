@@ -1,3 +1,4 @@
+import * as cdk from "@aws-cdk/core";
 import * as apigw from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import { join } from "path";
@@ -34,39 +35,47 @@ export const setupRateLimiting = (apiGateWay: apigw.LambdaRestApi): void => {
 };
 
 const addLambdaToGateway = (
+  stack: cdk.Stack,
   lambdaName: string,
   filename: string
 ): lambda.Function => {
-  return new lambda.Function(this, lambdaName, {
+  return new lambda.Function(stack, lambdaName, {
     runtime: lambda.Runtime.NODEJS_14_X,
     handler: "index.main",
     code: lambda.Code.fromAsset(join(__dirname, `/../lib/${filename}`)),
   });
 };
 
-export const addPutPropertyMethod = (putProperty: apigw.Resource): void => {
+export const addPutPropertyMethod = (
+  stack: cdk.Stack,
+  putProperty: apigw.Resource
+): void => {
   putProperty.addMethod(
     "PUT",
     new apigw.LambdaIntegration(
-      addLambdaToGateway("putProperty", "putProperty")
+      addLambdaToGateway(stack, "putProperty", "putProperty")
     )
   );
 };
 
 export const addDeletePropertyMethod = (
+  stack: cdk.Stack,
   deleteProperty: apigw.Resource
 ): void => {
   deleteProperty.addMethod(
     "DELETE",
     new apigw.LambdaIntegration(
-      addLambdaToGateway("deleteProperty", "deleteProperty")
+      addLambdaToGateway(stack, "deleteProperty", "deleteProperty")
     )
   );
 };
 
-export const addGuiMapMethod = (guiMap: apigw.Resource): void => {
+export const addGuiMapMethod = (
+  stack: cdk.Stack,
+  guiMap: apigw.Resource
+): void => {
   guiMap.addMethod(
     "GET",
-    new apigw.LambdaIntegration(addLambdaToGateway("guiMap", "guiMap"))
+    new apigw.LambdaIntegration(addLambdaToGateway(stack, "guiMap", "guiMap"))
   );
 };

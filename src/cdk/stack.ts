@@ -1,6 +1,4 @@
-import * as lambda from "@aws-cdk/aws-lambda";
 import * as apigw from "@aws-cdk/aws-apigateway";
-import * as path from "path";
 
 // import * as apigw from "@aws-cdk/aws-apigateway";
 import * as cdk from "@aws-cdk/core";
@@ -30,16 +28,16 @@ export class ProperlyStack extends cdk.Stack {
 
     // add a /put-property resource
     const putPropertyResource = apiGateWay.root.addResource("put-property");
-    addPutPropertyMethod(putPropertyResource);
+    addPutPropertyMethod(this, putPropertyResource);
 
     // add a /delete Property resource
     const deletePropertyResource =
       apiGateWay.root.addResource("delete-property");
-    addDeletePropertyMethod(deletePropertyResource);
+    addDeletePropertyMethod(this, deletePropertyResource);
 
     // add a /guiMap Property resource
     const guiMapResource = apiGateWay.root.addResource("guiMap");
-    addGuiMapMethod(guiMapResource);
+    addGuiMapMethod(this, guiMapResource);
   }
 }
 

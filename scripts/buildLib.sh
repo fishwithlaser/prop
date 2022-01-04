@@ -10,7 +10,4 @@ yarn build:lambdas
 echo "Zipping up lambda bundle..."
 yarn zip:lambdas
 
-echo "Removing compiled lambda code..."
-rm "./lib/lambdas/userAndChannelCountUpdaterBundle.js"
-
 echo "Done!"

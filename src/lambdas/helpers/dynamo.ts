@@ -1,5 +1,5 @@
+import { APIGatewayEvent } from "aws-lambda";
 import { AWSError } from "aws-sdk";
-
 
 export const isDynamoError = (result: any): result is AWSError => {
   return (
@@ -10,5 +10,6 @@ export const isDynamoError = (result: any): result is AWSError => {
 
 export const isValidInput = (event: APIGatewayEvent): boolean => {
   console.warn("TODO: no input valdation. Add validation");
+  console.log(event);
   return true;
 };
