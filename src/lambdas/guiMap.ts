@@ -6,7 +6,7 @@ import {
 } from "aws-lambda";
 import { getPropertiesInDecimalDegreeRange } from "./dynamoDb/getPropertiesInDDRange";
 import { isDynamoError, isValidInput } from "./helpers/dynamo";
-import { guiEventInterface } from "./types/guiMap";
+import { guiEventInterface, PropertyInformation } from "./types/guiMap";
 
 export const frontEndUI: Handler = async (
   event: APIGatewayEvent,
@@ -33,8 +33,11 @@ export const frontEndUI: Handler = async (
       body: JSON.stringify({ awsError: propertyArray }),
     };
   }
+
+  const verifiedPropertyArray = propertyArray as unknown as PropertyInformation;
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ propertyArray }),
+    body: JSON.stringify({ properties: verifiedPropertyArray }),
   };
 };

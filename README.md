@@ -21,4 +21,4 @@ Retrieving filtered properties from a database at a speed that is acceptable for
 Here, I am using a [Global Secondary Index](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) to enable quick index and return property information by allowing the user to search for a numeric range commensurate to the user's monitor.   
 
 # TODO:
-- implement dynamo client
+- implement user and property storage APIs 

@@ -38,6 +38,8 @@ export class ProperlyStack extends cdk.Stack {
     // add a /guiMap Property resource
     const guiMapResource = apiGateWay.root.addResource("guiMap");
     addGuiMapMethod(this, guiMapResource);
+
+    // add S3 connection for historic MLS storage (property history information)
   }
 }
 
